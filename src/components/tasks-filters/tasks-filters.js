@@ -1,20 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
 import "./tasks-filters.css"
 
-const TasksFilters = () => {
+export default class TasksFilters extends Component {
+  switchSelected = (btnName) => {
+    document.getElementsByClassName("selected")[0].classList.remove("selected")
+    document.getElementById(btnName).classList.add("selected")
+  }
+  render() {
     return (
-        <ul className="filters">
-            <li>
-              <button className="selected">All</button>
-            </li>
-            <li>
-              <button>Active</button>
-            </li>
-            <li>
-              <button>Completed</button>
-            </li>
-          </ul>
-    );
+      <ul className="filters">
+        <li>
+           <button onClick={ (e) => { this.switchSelected(e.target.id); this.props.switchFilter(e.target.id)} } id="allBtn" className="selected">All</button>
+        </li>
+        <li>
+           <button onClick={ (e) => { this.switchSelected(e.target.id); this.props.switchFilter(e.target.id)} } id="activeBtn">Active</button>
+        </li>
+        <li>
+           <button onClick={ (e) => { this.switchSelected(e.target.id); this.props.switchFilter(e.target.id)} } id="completedBtn">Completed</button>
+        </li>
+    </ul>
+    )
+  }
 }
 
 export { TasksFilters }

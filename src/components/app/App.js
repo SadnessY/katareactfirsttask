@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Footer from '../footer';
-import NewTaskForm from '../new-task-form';
+import NewTaskForm from '../new-task-form/new-task-form';
 import TaskList from '../task-list';
 import "./buttons.css";
 import "./app.css";
@@ -8,11 +8,25 @@ import "./app.css";
 export default class App extends Component {
   state = {
     tasks: [ 
-      { id: 1, description: "Completed task", status: "completed", created: "17 seconds ago" },
-      { id: 2, description: "Active task", status: "active", created: "5 minutes ago" },
-      { id: 3, description: "Editing task", status: "editing", created: "5 minutes ago" }
-    ]
+      { id: 1, description: "Completed task", status: "completed", created: new Date() },
+      { id: 2, description: "Active task", status: "active", created: new Date() }
+    ],
+    filters: "allBtn"
   }
+
+  filterTasks = () => {
+    switch (this.state.filters){
+      case "allBtn":
+        return this.state.tasks
+      case "activeBtn":
+        return this.state.tasks.filter(i => i.status === "active")
+      case "completedBtn":
+        return this.state.tasks.filter(i => i.status === "completed")
+      default:
+        return this.state.tasks
+    }
+  }
+
   changeItem = (id) => {
     this.setState(({ tasks }) => {
       const newArr = tasks.slice(0)
@@ -45,16 +59,40 @@ export default class App extends Component {
     })
   }
 
+  switchFilter = (f) => {
+    this.setState({
+      filters: f
+    })
+  }
+
+  clearCompleted = () => {
+    this.setState(({ tasks }) => {
+      const newArr = tasks.filter(item => item.status !== "completed")
+      return {
+        tasks: newArr
+      }
+    })
+  }
+
+  addItem = (text) => {
+    this.setState(({ tasks }) => {
+      const newArr = [...tasks, { id: Math.random(), description: text, status: "active", created: Date.now() }]
+      return {
+        tasks: newArr
+      }
+    })
+  }
   render() {
-    return (<section className='todoapp'>
+    return (
+    <section className='todoapp'>
       <header className="header">
         <h1>todos</h1>
-        <NewTaskForm />
+        <NewTaskForm onItemAdded={ this.addItem } />
       </header>
       <section className="main">
-        <TaskList onDeleted={ this.deleteItem } onChanged={ this.changeItem } tasks = { this.state.tasks } />
+        <TaskList onDeleted={ this.deleteItem } onChanged={ this.changeItem } tasks = { this.filterTasks() } />
       </section>
-      <Footer />
+      <Footer switchFilter={ this.switchFilter } clearCompleted={ this.clearCompleted } countCompleted={ this.state.tasks.filter(i => i.status !== "completed").length } />
     </section>
     )};
 }

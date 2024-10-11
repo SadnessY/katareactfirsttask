@@ -1,9 +1,7 @@
 import React, { Component } from "react";
+import { formatDistanceToNow } from 'date-fns'
 
 export default class Task extends Component {
-  state = {
-    done: false
-  }
   render() {
     const { options, onChanged, onDeleted } = this.props
     return (
@@ -11,7 +9,7 @@ export default class Task extends Component {
               <input className="toggle" type="checkbox" checked={ options.status === "completed" ? true : false } onChange={ onChanged } />
                 <label>
                   <span className="description">{ options.description }</span>
-                  <span className="created">created { options.created }</span>
+                  <span className="created">{ formatDistanceToNow(options.created) }</span>
                 </label>
                 <button className="icon icon-edit"></button>
                 <button onClick={ onDeleted } className="icon icon-destroy"></button>
