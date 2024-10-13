@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { formatDistanceToNowStrict } from 'date-fns'
 import PropTypes from 'prop-types'
+import validator from "../funcs/validator";
 
 export default class Task extends Component {
   state = {
@@ -38,7 +39,7 @@ export default class Task extends Component {
         <form
           onSubmit={(event) => {
             event.preventDefault()
-            editItem(this.state.value)
+            validator(this.state.value, editItem)
           }}
         >
           <input

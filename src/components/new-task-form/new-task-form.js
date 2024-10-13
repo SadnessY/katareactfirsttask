@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './new-task-form.css'
 import PropTypes from 'prop-types'
+import validator from "../funcs/validator";
 
 export default class NewTaskForm extends Component {
   state = {
@@ -18,7 +19,7 @@ export default class NewTaskForm extends Component {
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          this.props.onItemAdded(this.state.label)
+          validator(this.state.label, this.props.onItemAdded)
           this.setState({
             label: '',
           })
