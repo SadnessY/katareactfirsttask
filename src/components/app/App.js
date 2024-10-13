@@ -74,6 +74,19 @@ export default class App extends Component {
     })
   }
 
+  editItem = (text, id) => {
+    this.setState(({ tasks }) => {
+      const idx = tasks.findIndex(el => el.id === id)
+      const editingItem = tasks[idx]
+      editingItem.description = text
+      editingItem.status = "active"
+      const newArr = [...tasks.slice(0, idx), editingItem, ...tasks.slice(idx + 1)]
+      return {
+        tasks: newArr
+      }
+    })
+  }
+
   addItem = (text) => {
     this.setState(({ tasks }) => {
       const newArr = [...tasks, { id: Math.random(), description: text, status: "active", created: Date.now() }]
@@ -90,7 +103,7 @@ export default class App extends Component {
         <NewTaskForm onItemAdded={ this.addItem } />
       </header>
       <section className="main">
-        <TaskList onDeleted={ this.deleteItem } onChanged={ this.changeItem } tasks = { this.filterTasks() } />
+        <TaskList editItem={ this.editItem } onDeleted={ this.deleteItem } onChanged={ this.changeItem } tasks = { this.filterTasks() } />
       </section>
       <Footer switchFilter={ this.switchFilter } clearCompleted={ this.clearCompleted } countCompleted={ this.state.tasks.filter(i => i.status !== "completed").length } />
     </section>

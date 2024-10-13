@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./tasks-filters.css"
 
 export default class TasksFilters extends Component {
@@ -22,5 +23,6 @@ export default class TasksFilters extends Component {
     )
   }
 }
-
-export { TasksFilters }
+TasksFilters.propTypes = {
+  switchFilter: PropTypes.func.isRequired
+}
