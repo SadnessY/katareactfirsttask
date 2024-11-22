@@ -9,8 +9,8 @@ import './app.css'
 export default class App extends Component {
   state = {
     tasks: [
-      { id: 1, description: 'Completed task', status: 'completed', created: new Date() },
-      { id: 2, description: 'Active task', status: 'active', created: new Date() },
+      { id: 1, description: 'active task', status: 'active', created: new Date(), min: 0, sec: 0 },
+      { id: 2, description: 'Active task', status: 'active', created: new Date(), min: 0, sec: 0 },
     ],
     filters: 'allBtn',
   }
