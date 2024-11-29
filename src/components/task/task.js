@@ -42,7 +42,7 @@ const Task = ({ options = {}, onChanged = () => {}, onDeleted = {}, editItem }) 
     setTimer(
       setInterval(() => {
         secTimer()
-      }, 100)
+      }, 1000)
     )
   }
   const pauseTimer = (event) => {
