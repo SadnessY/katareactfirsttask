@@ -75,9 +75,20 @@ const App = () => {
       return newArr
     })
   }
-  const addItem = (text) => {
+  const addItem = (text, min, sec) => {
     setTasks(() => {
-      const newArr = [...tasks, { id: Math.random(), description: text, status: 'active', created: Date.now() }]
+      const newArr = [
+        ...tasks,
+        {
+          id: Math.random(),
+          description: text,
+          status: 'active',
+          created: Date.now(),
+          min: Number(min),
+          sec: Number(sec),
+        },
+      ]
+      console.log(newArr)
       return newArr
     })
   }

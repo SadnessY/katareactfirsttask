@@ -13,19 +13,9 @@
 	font-size: 15px;
 }
 .icon-play:after {
-    position: relative;
-    top: 14px;
     margin-left: 5px;
 	content: '▶';
 }
 .icon-pause:after {
-    position: relative;
-    top: 14px;
 	content: '⏸';
-}
-
-.desc {
-    margin-left: auto;
-    margin-right: 45px;
-    position: relative;
 }
