@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { formatDistanceToNowStrict } from 'date-fns'
 import PropTypes from 'prop-types'
+
 import './task.css'
+import validator from '../funcs/validator'
 const Task = ({ options = {}, onChanged = () => {}, onDeleted = {}, editItem }) => {
   const togRef = useRef()
   const secRef = useRef()
@@ -14,42 +16,56 @@ const Task = ({ options = {}, onChanged = () => {}, onDeleted = {}, editItem }) 
   const [timer, setTimer] = useState(null)
 
   const minTimer = () => {
-    setMin((min) => min + 1)
-    setSec(0)
+    setMin((min) => min - 1)
+    setSec(59)
   }
 
   const secTimer = () => {
     if (togRef.current.checked) {
-      setIsActive(!isActive)
+      setIsActive(false)
       clearInterval(timer)
     } else {
       if (
         secRef.current.innerHTML.slice(
           secRef.current.innerHTML.indexOf(':') + 1,
           secRef.current.innerHTML.indexOf('<')
-        ) < 60
+        ) > 0
       ) {
-        setSec((sec) => sec + 1)
-      } else {
+        setSec((sec) => sec - 1)
+      } else if (
+        secRef.current.innerHTML.slice(
+          secRef.current.innerHTML.indexOf(secRef.current.innerHTML[0]),
+          secRef.current.innerHTML.indexOf(':')
+        ) > 0
+      ) {
         minTimer()
+      } else {
+        setIsActive(false)
+        setTimer(() => {
+          clearInterval(timer)
+        })
       }
     }
   }
 
   const startTimer = (event) => {
     event.stopPropagation()
-    setIsActive(!isActive)
+    setIsActive(true)
     setTimer(
       setInterval(() => {
         secTimer()
-      }, 100)
+      }, 1000)
     )
   }
-  const pauseTimer = (event) => {
-    event.stopPropagation()
-    setIsActive(!isActive)
+  const pauseTimer = () => {
+    setIsActive(false)
     clearInterval(timer)
   }
+
+  useEffect(() => {
+    setMin(options.min)
+    setSec(options.sec)
+  }, [])
 
   useEffect(() => {
     return () => {
@@ -94,7 +110,7 @@ const Task = ({ options = {}, onChanged = () => {}, onDeleted = {}, editItem }) 
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          editItem(value)
+          validator(value, editItem)
         }}
       >
         <input onChange={(event) => setValue(event.target.value)} type="text" className="edit" value={value} />
