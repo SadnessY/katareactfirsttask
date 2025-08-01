@@ -1,1 +1,1 @@
-https://katareactfirsttask2.vercel.app/
+https://katareactfirsttask.vercel.app/
